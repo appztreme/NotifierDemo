@@ -4,14 +4,14 @@
 'use strict';
 
 import React, { Component,
-    Text,
     View } from 'react-native';
+import Login from './components/Login';
 
 class Root extends Component {
     render() {
         return (
             <View>
-                <Text>Test</Text>
+                <Login />
             </View>
         );
     }
