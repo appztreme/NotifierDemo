@@ -8,16 +8,25 @@ import React, { Component,
     TouchableHighlight,
     ActivityIndicatorIOS,
     StyleSheet } from 'react-native';
+import authService from './../common/AuthService';
 
 class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            showProgress: false
+            showProgress: false,
+            success: undefined,
+            message: '',
+            token: ''
         }
     }
 
     render() {
+        let errorCtrl = <View />
+        if(!this.state.success) {
+            errorCtrl = <Text style={styles.error}>{ this.state.message }</Text>;
+        }
+
         return (
             <View style={styles.container}>
                 <Image style={styles.logo} source={require('image!skier')} />
@@ -34,6 +43,7 @@ class Login extends Component {
                     onPress={this.onLoginPressed.bind(this)}>
                     <Text style={styles.buttonText}>Login</Text>
                 </TouchableHighlight>
+                { errorCtrl }
                 <ActivityIndicatorIOS style={styles.loader}
                     animating={this.state.showProgress}
                     size="large" />
@@ -42,21 +52,10 @@ class Login extends Component {
     }
 
     onLoginPressed() {
-        console.log(`Login is pressed with username: ${this.state.email}`);
         this.setState({showProgress: true});
-        fetch("http://localhost:3000/api/authenticate", {
-            method: "POST",
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ userEmail: this.state.email,
-                                   password: this.state.pwd })
-        })
-        .then(res => res.json())
-        .then(resp => console.log(resp))
-        .then(() => {
-            this.setState({ showProgress: false });
+        authService.login(this.state.email, this.state.pwd, result => {
+            this.setState(Object.assign({ showProgress: false }, result));
+            if(this.state.success) { this.props.onLogin(); }
         });
     }
 }
@@ -98,6 +97,10 @@ const styles = StyleSheet.create({
     },
     loader: {
         marginTop: 10
+    },
+    error: {
+        color: 'red',
+        paddingTop: 10
     }
 });
 

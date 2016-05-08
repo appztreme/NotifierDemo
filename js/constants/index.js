@@ -1,0 +1,8 @@
+'use strict';
+
+export const LOGIN = {
+    REQUEST: 'LOGIN_REQUEST',
+    SUCCESS: 'LOGIN_REQUEST_SUCCESS',
+    FAILURE: 'LOGIN_REQUEST_FAILURE',
+    LOGOUT: 'LOGOUT_REQUEST'
+};
