@@ -8,6 +8,9 @@ import React, { Component,
     TouchableHighlight,
     ActivityIndicatorIOS,
     StyleSheet } from 'react-native';
+import * as actions from './../actions';
+import store from './../store';
+// import { LOGIN } form './../constants';
 import authService from './../common/AuthService';
 
 class Login extends Component {
@@ -52,11 +55,12 @@ class Login extends Component {
     }
 
     onLoginPressed() {
-        this.setState({showProgress: true});
-        authService.login(this.state.email, this.state.pwd, result => {
-            this.setState(Object.assign({ showProgress: false }, result));
-            if(this.state.success) { this.props.onLogin(); }
-        });
+        //this.setState({showProgress: true});
+        store.dispatch(actions.loginRequest('user@gmail.com', 'user'));
+        // authService.login(this.state.email, this.state.pwd, result => {
+        //     this.setState(Object.assign({ showProgress: false }, result));
+        //     if(this.state.success) { this.props.onLogin(); }
+        // });
     }
 }
 

@@ -18,5 +18,5 @@ export function* loginAsync(action) {
 }
 
 export function* watchLoginAsync() {
-    yield* takeEvery(actions.Request, loginAsync);
+    yield* takeEvery(LOGIN.REQUEST, loginAsync);
 }

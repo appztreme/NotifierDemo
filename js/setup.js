@@ -8,14 +8,20 @@ import React, { Component,
     Text,
     ActivityIndicatorIOS,
     StyleSheet } from 'react-native';
+import { Provider } from 'react-redux';
 import authService from './common/AuthService';
 import Login from './components/Login';
+import store from './store';
 
 class Root extends Component {
     constructor(props) {
         super(props);
         this.state = { isLoggedIn: false,
             isCheckingAuth: false };
+    }
+
+    static contextTypes = {
+        store: React.PropTypes.object.isRequired,
     }
 
     componentDidMount() {
@@ -26,16 +32,20 @@ class Root extends Component {
     }
 
     render() {
-        if(this.state.isCheckingAuth) {
-            return (<View style={styles.container}>
-                <ActivityIndicatorIOS animating={true} size="large" />
-            </View>);
-        }
-        if(this.state.isLoggedIn) {
-            return (<View style={styles.container}><Text>Hallo</Text></View>);
-        } else {
-            return (<Login onLogin={() => this.onSuccessfullLogin()}/>);
-        }
+        // if(this.state.isCheckingAuth) {
+        //     return (<View style={styles.container}>
+        //         <ActivityIndicatorIOS animating={true} size="large" />
+        //     </View>);
+        // }
+        // if(this.state.isLoggedIn) {
+        //     return (<View style={styles.container}><Text>Hallo</Text></View>);
+        // } else {
+            return (
+                <Provider store={store}>
+                    <Login onLogin={() => this.onSuccessfullLogin()}/>
+                </Provider>
+            );
+        // }
     }
 
     onSuccessfullLogin() {
