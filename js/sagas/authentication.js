@@ -9,7 +9,9 @@ import * as api from './../api/authentication';
 
 export function* loginAsync(action) {
     try {
+        console.log('LOGINASYNC called with action:', action);
         let result = yield call(api.authenticate, action.payload.email, action.payload.password);
+        console.log('USER FETCHED:', result);
         yield put(actions.loginSuccess(result.token, result.message));
     }
     catch(err) {
@@ -18,5 +20,6 @@ export function* loginAsync(action) {
 }
 
 export function* watchLoginAsync() {
+    console.log('WATCHLOGINASYNC called');
     yield* takeEvery(LOGIN.REQUEST, loginAsync);
 }

@@ -3,7 +3,8 @@
 const BASE_URL = 'http://localhost:82/api/';
 
 export function authenticate(email, pwd) {
-    fetch("http://localhost:3000/api/authenticate", {
+    console.log("API CALL:", email + " " + pwd);
+    return fetch("http://localhost:3000/api/authenticate", {
         method: "POST",
         headers: {
             'Accept': 'application/json',
@@ -14,6 +15,7 @@ export function authenticate(email, pwd) {
     })
     .then(res => res.json())
     .then(resp => {
+        console.log("API FETCH:", resp);
         if(!resp.success) throw resp.message;
         return resp;
     })
