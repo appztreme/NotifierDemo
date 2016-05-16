@@ -1,9 +1,10 @@
-import React, { Component, View } from 'react-native';
+import React, { View } from 'react-native';
 import LoginContainer from './LoginContainer';
+import Main from './Main';
 
 const App = () => (
     <View>
-        <LoginContainer />
+        <Main />
     </View>
 );
 

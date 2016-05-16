@@ -62,7 +62,6 @@ class Login extends Component {
     }
 
     onLoginPressed() {
-        //console.log('STORE from Login:', store.getState());
         this.props.onLoginClick(this.state.email, this.state.pwd);
     }
 
