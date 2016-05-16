@@ -1,23 +1,21 @@
-'use strict';
-
-const BASE_URL = 'http://localhost:82/api/';
+const BASE_URL = 'http://localhost:3000/api/';
 
 export function authenticate(email, pwd) {
-    console.log("API CALL:", email + " " + pwd);
-    return fetch("http://localhost:3000/api/authenticate", {
-        method: "POST",
+    const URL = `${BASE_URL}authenticate`;
+    console.log('API CALL:', URL, email, pwd);
+    return fetch(URL, {
+        method: 'POST',
         headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
         },
         body: JSON.stringify({ userEmail: email,
-                               password: pwd })
+                               password: pwd }),
     })
     .then(res => res.json())
     .then(resp => {
-        console.log("API FETCH:", resp);
-        if(!resp.success) throw resp.message;
+        console.log('API FETCH:', resp);
+        if (!resp.success) throw new Error(resp.message);
         return resp;
-    })
-    .catch(err => { throw err.message });
+    }).catch(err => { throw err; });
 }
