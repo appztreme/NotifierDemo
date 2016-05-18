@@ -1,11 +1,25 @@
 import React, { View } from 'react-native';
+import { connect } from 'react-redux';
 import LoginContainer from './LoginContainer';
 import Main from './Main';
 
-const App = () => (
+function showApp(isAuthenticated) {
+    if (isAuthenticated) return <Main />;
+    else return <LoginContainer />;
+}
+
+const App = ({isAuthenticated}) => (
     <View>
-        <Main />
+        {showApp(isAuthenticated)}
     </View>
 );
 
-export default App;
+const mapStateToProps = (store) => {
+    return {
+        isAuthenticated: store.authentication.isAuthenticated,
+    };
+}
+
+const AppContainer = connect(mapStateToProps)(App);
+
+export default AppContainer;

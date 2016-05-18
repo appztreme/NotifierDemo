@@ -1,31 +1,46 @@
 import { NOTIFICATION } from './../constants';
 
-const initialState = {
+const initialNotificationsState = {
+    newCount: 0,
+    notifications: [],
+};
+
+const initialNotificationState = {
+    title: '',
     message: '',
     date: new Date(),
     accepted: false,
+    read: false,
 };
 
-export default (state = [], action) => {
+export default (state = initialNotificationsState, action) => {
     switch (action.type) {
     case NOTIFICATION.NEW:
         console.log('RED new notification', action);
-        return [notification(undefined, action), ...state];
+        return {
+            newCount: state.newCount + 1,
+            notifications: [notification(undefined, action), ...state.notifications],
+        };
     case NOTIFICATION.CLEAN:
-        return state.filter(val => val.date >= action.date);
+        console.log("RED CLEAN", action);
+        const filtered = state.notifications.filter(val => val.date >= action.date);
+        return {
+            newCount: filtered.filter(val => !val.read).length,
+            notifications: filtered,
+        };
     default:
         return state;
     }
 };
 
-const notification = (state = initialState, action) => {
+const notification = (state = initialNotificationState, action) => {
     console.log("single red", action);
     switch (action.type) {
     case NOTIFICATION.LOAD:
         return action.payload;
     case NOTIFICATION.NEW:
         console.log("Single reducer called", action);
-        return Object.assign({}, initialState, action.payload.notification);
+        return Object.assign({}, initialNotificationState, action.payload.notification);
     default:
         return state;
     }

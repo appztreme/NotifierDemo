@@ -6,17 +6,13 @@ import React, { Component,
 import { connect } from 'react-redux';
 import NotificationSvc from './../api/notification';
 import * as actions from './../actions';
+import NotificationItem from './NotificationItem';
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         paddingTop: 40,
         padding: 10,
-    },
-    row: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        padding: 10,
-        backgroundColor: '#F6F6F6',
     },
 });
 
@@ -38,13 +34,14 @@ class NotificationList extends Component {
 
     renderRow(data) {
         return (
-            <View style={styles.row}><Text>{data.text}</Text></View>
+            <NotificationItem notification={data} />
         )
     }
 
     render() {
         return (
             <ListView style={styles.container}
+                enableEmptySections={true}
                 dataSource={this.state.dataSource}
                 renderRow={data => this.renderRow(data)}
             />
@@ -60,7 +57,7 @@ NotificationList.propTypes = {
 const mapStateToProps = (state) => {
     console.log("STATE", state);
     return {
-        notifications: state.notification,
+        notifications: state.notification.notifications,
     };
 };
 

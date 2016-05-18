@@ -3,7 +3,9 @@ import React, { Component,
     Text,
     View,
     StyleSheet } from 'react-native';
+import { connect } from 'react-redux';
 import NotificationList from './NotificationList'
+import * as actions from './../actions';
 
 const styles = StyleSheet.create({
     container: {
@@ -31,6 +33,13 @@ class Main extends Component {
             selectedTab: 'news',
         }
     }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.newCount % 10 === 0) {
+            this.props.onCountMod10();
+        }
+    }
+
     renderContent(tab) {
         if (tab === 'news') {
             return (
@@ -52,9 +61,10 @@ class Main extends Component {
                 tintColor="white"
             >
                 <TabBarIOS.Item
+                    badge={this.props.newCount}
                     onPress={() => this.setState({ selectedTab: 'news' })}
                     selected={this.state.selectedTab === 'news'}
-                    systemIcon="top-rated"
+                    systemIcon="history"
                     title="News">
                     {this.renderContent('news')}
                 </TabBarIOS.Item>
@@ -70,4 +80,28 @@ class Main extends Component {
     }
 }
 
-export default Main;
+Main.propTypes = {
+    newCount: React.PropTypes.number.isRequired,
+    onCountMod10: React.PropTypes.func.isRequired,
+}
+
+const mapStateToProps = (state) => {
+    return {
+        newCount: state.notification.newCount,
+    }
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onCountMod10: () => {
+            const now = new Date();
+            const before = now.setSeconds(now.getSeconds() - 45);
+            console.log('CLEAN Notification', before);
+            dispatch(actions.cleanNotifications(before));
+        },
+    };
+};
+
+const MainContainer = connect(mapStateToProps, mapDispatchToProps)(Main);
+
+export default MainContainer;
