@@ -5,7 +5,7 @@ import Main from './Main';
 
 function showApp(isAuthenticated) {
     if (isAuthenticated) return <Main />;
-    else return <LoginContainer />;
+    return <LoginContainer />;
 }
 
 const App = ({isAuthenticated}) => (

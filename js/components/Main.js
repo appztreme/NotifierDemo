@@ -4,7 +4,9 @@ import React, { Component,
     View,
     StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
-import NotificationList from './NotificationList'
+import NotificationList from './NotificationList';
+import NotificationDetail from './NotificationDetail';
+import AcceptedNotificationList from './AcceptedNotificationList';
 import * as actions from './../actions';
 
 const styles = StyleSheet.create({
@@ -46,6 +48,11 @@ class Main extends Component {
                 <NotificationList />
             );
         }
+        else if (tab === 'accept') {
+            return (
+                <AcceptedNotificationList />
+            );
+        }
         else if (tab === 'user') {
             return (
                 <View style={styles.item}><Text style={styles.heading}>USER</Text></View>
@@ -53,10 +60,11 @@ class Main extends Component {
         }
         else return ( <View /> );
     }
+
     render() {
         return (
             <TabBarIOS
-                barTintColor="powderblue"
+                barTintColor="#48BBEC"
                 style={styles.container}
                 tintColor="white"
             >
@@ -67,6 +75,12 @@ class Main extends Component {
                     systemIcon="history"
                     title="News">
                     {this.renderContent('news')}
+                </TabBarIOS.Item>
+                <TabBarIOS.Item
+                    onPress={() => this.setState({ selectedTab: 'accept' })}
+                    selected={this.state.selectedTab === 'accept'}
+                    systemIcon="top-rated">
+                    {this.renderContent('accept')}
                 </TabBarIOS.Item>
                 <TabBarIOS.Item
                     onPress={() => this.setState({ selectedTab: 'user' })}

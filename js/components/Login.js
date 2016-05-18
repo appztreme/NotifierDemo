@@ -22,11 +22,14 @@ const styles = StyleSheet.create({
     heading: {
         fontSize: 30,
         marginTop: 10,
+        fontWeight: 'bold',
+        color: '#48BBEC',
     },
     input: {
         height: 50,
         marginTop: 10,
-        padding: 4,
+        borderRadius: 10,
+        padding: 10,
         fontSize: 13,
         borderWidth: 1,
         borderColor: '#48BBEC',
@@ -34,6 +37,7 @@ const styles = StyleSheet.create({
     button: {
         height: 50,
         backgroundColor: '#48BBEC',
+        borderRadius: 15,
         alignSelf: 'stretch',
         marginTop: 10,
         justifyContent: 'center',
@@ -76,18 +80,24 @@ class Login extends Component {
         return (
             <View style={styles.container}>
                 <Image source={require('image!skier')}
-                       style={styles.logo} />
+                    style={styles.logo}
+                />
                 <Text style={styles.heading}>WS Browser</Text>
                 <TextInput autoCapitalize="none"
                     onChangeText={(text) => this.setState({ email: text })}
                     placeholder="email"
-                    style={styles.input} />
-                <TextInput style={styles.input}
+                    style={styles.input}
+                />
+                <TextInput
                     onChangeText={(text) => this.setState({ pwd: text })}
                     placeholder="password"
-                    secureTextEntry={true} />
-                <TouchableHighlight style={styles.button}
-                    onPress={this.onLoginPressed.bind(this)}>
+                    secureTextEntry
+                    style={styles.input}
+                />
+                <TouchableHighlight
+                    onPress={this.onLoginPressed.bind(this)}
+                    style={styles.button}
+                >
                     <Text style={styles.buttonText}>Login</Text>
                 </TouchableHighlight>
                 {errorCtrl}
@@ -105,7 +115,7 @@ Login.propTypes = {
     isAuthenticated: React.PropTypes.bool.isRequired,
     isAuthenticating: React.PropTypes.bool.isRequired,
     onLoginClick: React.PropTypes.func.isRequired,
-    statusText: React.PropTypes.string.isRequired,
+    statusText: React.PropTypes.string,
 };
 
 export default Login;
